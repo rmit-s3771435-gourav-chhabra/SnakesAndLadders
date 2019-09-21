@@ -353,4 +353,24 @@ public class Board extends JPanel implements Runnable {
 		drawPieces(g);
 		dice.draw(g);
 	}
+
+	public int getLadderEnd(int startPoint) {
+		return ladders[startPoint].getEndPoint();
+	}
+
+	public boolean getLadderStart(int startPoint) {
+		if (ladders[startPoint] == null)
+			return false;
+		return true;
+	}
+
+	public int getSnakeTail(int head) {
+		return snakes[head].getTail();
+	}
+
+	public boolean getSnakeHead(int head) {
+		if (snakes[head] == null)
+			return false;
+		return true;
+	}
 }

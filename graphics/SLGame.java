@@ -57,6 +57,7 @@ public class SLGame {
 		do {
 			invalid = false;
 			s = (String) JOptionPane.showInputDialog(bd, message, "Customized Dialog", JOptionPane.PLAIN_MESSAGE);
+			plainMessage(message);
 			try {
 				n = Integer.parseInt(s);
 				if (n < from || n > to)
@@ -103,53 +104,120 @@ public class SLGame {
 		bd.addMessage("Player 2 : " + name2);
 		bd.addMessage("Player 3 : " + name3);
 		bd.addMessage("Player 4 : " + name4);
-		int p1Location;
+		int p1Location = 1;
 		int p2Location = 1;
-		bd.setPiece(1, bd.pieces.get(0).getPos());
-		bd.setPiece(2, bd.pieces.get(1).getPos());
-		int val = getInt(name1 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
-		if (val == 0)
-			val = dice.roll();
-		else
-			dice.set(val);
-		//p1Location += val;
-		bd.pieces.get(0).movePiece(val);
-		p1Location = bd.pieces.get(0).getPos();
-		plainMessage(name1 + ": moving to " + p1Location);
-		bd.setPiece(1, p1Location);
-		if (p1Location == 7) {
-			p1Location = 49; // going up the first ladder
-			plainMessage(name1 + ": goin up a ladder to " + p1Location);
+		int p3Location = 1;
+		int p4Location = 1;
+		while (p1Location < 100 || p2Location < 100 || p3Location < 100 || p4Location < 100) {
+			bd.setPiece(1, bd.pieces.get(0).getPos());
+			bd.setPiece(2, bd.pieces.get(1).getPos());
+			int val = getInt(name1 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
+			if (val == 0)
+				val = dice.roll();
+			else
+				dice.set(val);
+			p1Location += val;
+			// bd.pieces.get(0).movePiece(val);
 			bd.setPiece(1, p1Location);
-		}
-
-		// here we are allowing use to set the dice value for testing purposes
-		val = getInt(name2 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
-		if (val == 0)
-			val = dice.roll();
-		else
-			dice.set(val);
-		p2Location += val;
-		plainMessage(name2 + ": moving to " + p2Location);
-		bd.setPiece(2, p2Location);
-		if (p2Location == 7) {
-			p2Location = 49; // going up the first ladder
-			plainMessage(name2 + ": going up a ladder to " + p2Location);
+			p1Location = bd.pieces.get(0).getPos();
+			plainMessage(name1 + ": moving to " + p1Location);
+			bd.setPiece(1, p1Location);
+			if (p1Location < 100) {
+				if (bd.getLadderStart(p1Location)) {
+					p1Location = bd.getLadderEnd(p1Location); // going up the first ladder
+					plainMessage(name1 + ": going up a ladder to " + p1Location);
+					bd.setPiece(1, p1Location);
+				}
+				if (bd.getSnakeHead(p1Location) && p1Location < 100) {
+					p1Location = bd.getSnakeTail(p1Location); // going up the first ladder
+					plainMessage(name1 + ": going down to " + p1Location);
+					bd.setPiece(1, p1Location);
+				}
+			} else
+				break;
+			// here we are allowing use to set the dice value for testing purposes
+			val = getInt(name2 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
+			if (val == 0)
+				val = dice.roll();
+			else
+				dice.set(val);
+			p2Location += val;
+			plainMessage(name2 + ": moving to " + p2Location);
 			bd.setPiece(2, p2Location);
+			if (p2Location < 100) {
+				if (bd.getLadderStart(p2Location)) {
+					p2Location = bd.getLadderEnd(p2Location); // going up the first ladder
+					plainMessage(name2 + ": going up a ladder to " + p2Location);
+					bd.setPiece(2, p2Location);
+				}
+				if (bd.getSnakeHead(p2Location) && p2Location < 100) {
+					p2Location = bd.getSnakeTail(p2Location); // going up the first ladder
+					plainMessage(name2 + ": going down to " + p2Location);
+					bd.setPiece(2, p2Location);
+				}
+			}
+
+			else
+				break;
+			val = getInt(name3 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
+			if (val == 0)
+				val = dice.roll();
+			else
+				dice.set(val);
+			p3Location += val;
+			plainMessage(name3 + ": moving to " + p3Location);
+			bd.setPiece(3, p3Location);
+			if (p3Location < 100) {
+				if (bd.getLadderStart(p3Location)) {
+					p3Location = bd.getLadderEnd(p3Location); // going up the first ladder
+					plainMessage(name3 + ": going up a ladder to " + p3Location);
+					bd.setPiece(3, p3Location);
+				}
+				if (bd.getSnakeHead(p3Location) && p3Location < 100) {
+					p3Location = bd.getSnakeTail(p3Location); // going up the first ladder
+					plainMessage(name3 + ": going down to " + p3Location);
+					bd.setPiece(3, p3Location);
+				}
+			}
+
+			else
+				break;
+			val = getInt(name4 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing.", 0, 6);
+			if (val == 0)
+				val = dice.roll();
+			else
+				dice.set(val);
+			p4Location += val;
+			plainMessage(name4 + ": moving to " + p4Location);
+			bd.setPiece(4, p4Location);
+			if (p4Location < 100) {
+				if (bd.getLadderStart(p4Location)) {
+					p4Location = bd.getLadderEnd(p4Location); // going up the first ladder
+					plainMessage(name4 + ": going up a ladder to " + p4Location);
+					bd.setPiece(4, p4Location);
+				}
+				if (bd.getSnakeHead(p4Location) && p4Location < 100) {
+					p4Location = bd.getSnakeTail(p4Location); // going up the first ladder
+					plainMessage(name4 + ": going down to " + p4Location);
+					bd.setPiece(4, p4Location);
+				}
+			}
+
+			else
+				break;
+//			plainMessage("The rest is up to you. You may have to introduce additional variables.");
+
+			// Complete the game logic
+			// throwing or setting the dice
+			// moving by dice value and showing the pieces at new position
+			// moving up the ladder, going down the snake or being trapped (lose 3 moves)
+
+//			bd.addMessage("Continue until");
+//			bd.addMessage("a player gets to 100");
+//			bd.addMessage("Remember to have fun!");
+//			bd.addMessage("Danger: Traps,Snakes");
+//			bd.addMessage("Trap: lose 3 moves");
 		}
-
-		plainMessage("The rest is up to you. You may have to introduce additional variables.");
-
-		// Complete the game logic
-		// throwing or setting the dice
-		// moving by dice value and showing the pieces at new position
-		// moving up the ladder, going down the snake or being trapped (lose 3 moves)
-
-		bd.addMessage("Continue until");
-		bd.addMessage("a player gets to 100");
-		bd.addMessage("Remember to have fun!");
-		bd.addMessage("Danger: Traps,Snakes");
-		bd.addMessage("Trap: lose 3 moves");
 	}
 
 	// The very first method to be called
