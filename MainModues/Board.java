@@ -37,8 +37,8 @@ public class Board {
 		for (int i = 0; i < snakes.length; i++) {
 			if (snakes[i] != null) {
 				count++;
-				if(snakes[i].getHead() > 80 && s.getHead() > 80) {
-					throw new SnakePlacementException("No more than 2 snakes above 81."); 
+				if (snakes[i].getHead() > 80 && s.getHead() > 80) {
+					throw new SnakePlacementException("No more than 2 snakes above 81.");
 				}
 			}
 			if (count >= 5) {
@@ -77,7 +77,7 @@ public class Board {
 
 	public void moveSnake(String move, Snake1 s) throws Exception {
 		int previousHead = s.getHead();
-		sc.moveSnake(this, move, s);
+		// sc.moveSnake(this, move, s);
 		int newPosition = s.getHead();
 		if (newPosition > 80 && newPosition < 101) {
 			for (int i = 81; i < 100; i++) {

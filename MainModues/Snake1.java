@@ -1,6 +1,5 @@
 package MainModules;
 
-
 public class Snake1 {
 	int head, tail, length;
 
@@ -11,6 +10,10 @@ public class Snake1 {
 		if (length > 30) {
 			throw new Exception("Snake's length cannot exceed 30.");
 		}
+	}
+
+	public int getLength() {
+		return (getHead() - getTail());
 	}
 
 	public int getHead() {
