@@ -17,6 +17,7 @@ public class Board extends JPanel implements Runnable {
 	private int XMARGIN = 20;
 	private int YMARGIN = 20;
 	// private int pieces[];
+	private int numberOfPieces;
 	private Dice dice;
 	private String bLines[] = new String[8];
 	private int bCount = 0;
@@ -27,12 +28,12 @@ public class Board extends JPanel implements Runnable {
 	SnakeController sc = new SnakeController();
 	int count = 0;
 	private int SIZE = 100;
-	private Snake1 snakes[] = new Snake1[SIZE];
-	private Ladder ladders[] = new Ladder[SIZE];;
+	public Snake1 snakes[] = new Snake1[SIZE];
+	public Ladder ladders[] = new Ladder[SIZE];;
 	ArrayList<Pieces> pieces;
 
 	public void addPiece() {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < numberOfPieces; i++) {
 			pieces.add(new Pieces());
 		}
 
@@ -66,6 +67,8 @@ public class Board extends JPanel implements Runnable {
 			throw new SnakePlacementException("2 snakes can't be in same position " + s.getHead());
 		} else if (ladders[s.getHead()] != null) {
 			throw new SnakePlacementException("Head of snake can't co-incide with ladder's start point");
+		} else if (s.getHead() < s.getTail()) {
+			throw new SnakePlacementException("Tail can not be greater than head");
 		}
 		count = 0;
 		for (int i = 0; i < snakes.length; i++) {
@@ -93,6 +96,8 @@ public class Board extends JPanel implements Runnable {
 			throw new Exception("Head of snake can't co-incide with ladder's start point");
 		} else if (snakes[l.getEndPoint()] != null) {
 			throw new Exception("Head of snake can't co-incide with ladder's end point");
+		} else if (l.getEndPoint() < l.getStartPoint()) {
+			throw new Exception("Start point can not be greater than end point");
 		}
 
 		count = 0;
@@ -100,7 +105,7 @@ public class Board extends JPanel implements Runnable {
 			if (ladders[i] != null) {
 				count++;
 			}
-			if (count > 5) {
+			if (count >= 5) {
 
 				throw new Exception("No more than 5 ladders allowed on board");
 			}
@@ -117,9 +122,7 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public Board() {
-
 		this(4);
-
 	}
 
 	public Board(int n) {
@@ -127,6 +130,7 @@ public class Board extends JPanel implements Runnable {
 			System.out.println("Minimum 2 players and Maximum 4 players");
 			System.exit(0);
 		}
+		this.numberOfPieces = n;
 		pieces = new ArrayList<Pieces>();
 		addPiece();
 
@@ -359,8 +363,12 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public boolean getLadderStart(int startPoint) {
-		if (ladders[startPoint] == null)
+		try {
+			if (ladders[startPoint] == null)
+				return false;
+		} catch (Exception e) {
 			return false;
+		}
 		return true;
 	}
 
@@ -369,8 +377,12 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public boolean getSnakeHead(int head) {
-		if (snakes[head] == null)
+		try {
+			if (snakes[head] == null)
+				return false;
+		} catch (Exception e) {
 			return false;
+		}
 		return true;
 	}
 }
