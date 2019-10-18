@@ -30,7 +30,7 @@ public class Board extends JPanel implements Runnable {
 	private int SIZE = 100;
 	public Snake1 snakes[] = new Snake1[SIZE];
 	public Ladder ladders[] = new Ladder[SIZE];;
-	ArrayList<Pieces> pieces;
+	public ArrayList<Pieces> pieces;
 
 	public void addPiece() {
 		for (int i = 0; i < numberOfPieces; i++) {

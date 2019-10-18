@@ -6,14 +6,28 @@ import java.awt.*;
 import java.applet.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SLGame {
 
 	// These arrays and variables are required only for part II
-	// Snake1 snakes[] = new Snake1[100]; // array can store up to 10 Snake objects
+	// Snake1 snakes[] = new Snake1[max]; // array can store up to 10 Snake objects
+	final int max = 100;
+	final int maxMoves = 50;
+	final int stage3Moves = 20;
+	int p1Location = 1;
+	int p1Count = 0;
+	int p2Location = 1;
+	int p2Count = 0;
+	int p3Location = 1;
+	int p3Count = 0;
+	int p4Location = 1;
+	int p4Count = 0;
+	int val;
+	Pieces winner;
 	ArrayList<Snake1> snakes = new ArrayList<Snake1>();
 	ArrayList<String> directions = new ArrayList<String>();
-	Ladder ladders[] = new Ladder[100]; // array can store up to 10 Ladder objects
+	Ladder ladders[] = new Ladder[max]; // array can store up to 10 Ladder objects
 	Trap traps[] = new Trap[10]; // array can store up to 10 Trap objects
 	String name[] = new String[4]; // array for storing the names
 	int snakesCount = 0;
@@ -45,7 +59,7 @@ public class SLGame {
 
 		while (true) {
 			try {
-				Snake1 s = new Snake1(getInt("Enter Snake 1 head", 1, 100), getInt("Enter Snake 1 tail", 1, 100));
+				Snake1 s = new Snake1(getInt("Enter Snake 1 head", 1, max), getInt("Enter Snake 1 tail", 1, max));
 				bd.add(s);
 				snakes.add(s);
 				break;
@@ -57,7 +71,7 @@ public class SLGame {
 
 		while (true) {
 			try {
-				Snake1 s = new Snake1(getInt("Enter Snake 2 head", 1, 100), getInt("Enter Snake 2 tail", 1, 100));
+				Snake1 s = new Snake1(getInt("Enter Snake 2 head", 1, max), getInt("Enter Snake 2 tail", 1, max));
 				bd.add(s);
 				snakes.add(s);
 				break;
@@ -67,45 +81,45 @@ public class SLGame {
 			}
 		}
 
-//		while (true) {
-//			try {
-//				Snake1 s = new Snake1(getInt("Enter Snake 3 head", 1, 100), getInt("Enter Snake 3 tail", 1, 100));
-//				bd.add(s);
-//				snakes.add(s);
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
-//
-//		while (true) {
-//			try {
-//				Snake1 s = new Snake1(getInt("Enter Snake 4 head", 1, 100), getInt("Enter Snake 4 tail", 1, 100));
-//				bd.add(s);
-//				snakes.add(s);
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
-//
-//		while (true) {
-//			try {
-//				Snake1 s = new Snake1(getInt("Enter Snake 5 head", 1, 100), getInt("Enter Snake 5 tail", 1, 100));
-//				bd.add(s);
-//				snakes.add(s);
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
+		while (true) {
+			try {
+				Snake1 s = new Snake1(getInt("Enter Snake 3 head", 1, max), getInt("Enter Snake 3 tail", 1, max));
+				bd.add(s);
+				snakes.add(s);
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
+
+		while (true) {
+			try {
+				Snake1 s = new Snake1(getInt("Enter Snake 4 head", 1, max), getInt("Enter Snake 4 tail", 1, max));
+				bd.add(s);
+				snakes.add(s);
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
+
+		while (true) {
+			try {
+				Snake1 s = new Snake1(getInt("Enter Snake 5 head", 1, max), getInt("Enter Snake 5 tail", 1, max));
+				bd.add(s);
+				snakes.add(s);
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
 		// snakesCount = 3;
 		while (true) {
 			try {
-				bd.add(new Ladder(getInt("Enter Ladder 1 Start", 1, 100), getInt("Enter Ladder 1 End", 1, 100)));
+				bd.add(new Ladder(getInt("Enter Ladder 1 Start", 1, max), getInt("Enter Ladder 1 End", 1, max)));
 				break;
 			} catch (Exception e) {
 				plainMessage(e.getMessage());
@@ -115,7 +129,7 @@ public class SLGame {
 
 		while (true) {
 			try {
-				bd.add(new Ladder(getInt("Enter Ladder 2 Start", 1, 100), getInt("Enter Ladder 2 End", 1, 100)));
+				bd.add(new Ladder(getInt("Enter Ladder 2 Start", 1, max), getInt("Enter Ladder 2 End", 1, max)));
 				break;
 			} catch (Exception e) {
 				plainMessage(e.getMessage());
@@ -123,35 +137,35 @@ public class SLGame {
 			}
 		}
 
-//		while (true) {
-//			try {
-//				bd.add(new Ladder(getInt("Enter Ladder 3 Start", 1, 100), getInt("Enter Ladder 3 End", 1, 100)));
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
-//
-//		while (true) {
-//			try {
-//				bd.add(new Ladder(getInt("Enter Ladder 4 Start", 1, 100), getInt("Enter Ladder 4 End", 1, 100)));
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
-//
-//		while (true) {
-//			try {
-//				bd.add(new Ladder(getInt("Enter Ladder 5 Start", 1, 100), getInt("Enter Ladder 5 End", 1, 100)));
-//				break;
-//			} catch (Exception e) {
-//				plainMessage(e.getMessage());
-//				continue;
-//			}
-//		}
+		while (true) {
+			try {
+				bd.add(new Ladder(getInt("Enter Ladder 3 Start", 1, max), getInt("Enter Ladder 3 End", 1, max)));
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
+
+		while (true) {
+			try {
+				bd.add(new Ladder(getInt("Enter Ladder 4 Start", 1, max), getInt("Enter Ladder 4 End", 1, max)));
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
+
+		while (true) {
+			try {
+				bd.add(new Ladder(getInt("Enter Ladder 5 Start", 1, max), getInt("Enter Ladder 5 End", 1, max)));
+				break;
+			} catch (Exception e) {
+				plainMessage(e.getMessage());
+				continue;
+			}
+		}
 		// laddersCount = 3;
 
 	}
@@ -164,7 +178,7 @@ public class SLGame {
 		do {
 			invalid = false;
 			s = (String) JOptionPane.showInputDialog(bd, message, "Customized Dialog", JOptionPane.PLAIN_MESSAGE);
-			plainMessage(message);
+			// plainMessage(message);
 			try {
 				n = Integer.parseInt(s);
 				if (n < from || n > to)
@@ -217,27 +231,16 @@ public class SLGame {
 				bd.addMessage("Player 4 : " + name4);
 			}
 		}
-		int p1Location = 1;
-		int p1Count = 0;
-		int p2Location = 1;
-		int p2Count = 0;
-		int p3Location = 1;
-		int p3Count = 0;
-		int p4Location = 1;
-		int p4Count = 0;
-		int val;
-		while (p1Location < 100 || p2Location < 100 || p3Location < 100 || p4Location < 100) {
+		while (p1Location < max || p2Location < max || p3Location < max || p4Location < max) {
 			bd.setPiece(1, bd.pieces.get(0).getPos());
 			bd.setPiece(2, bd.pieces.get(1).getPos());
-			if (p1Location < 100 && p1Count < 50) {
+			if (p1Location < max && p1Count < maxMoves) {
 				while (true) {
 					if (bd.pieces.get(0).getParalyzedState() > 0) {
 						bd.pieces.get(0).decrementParalyzedState();
 						break;
 					}
-					val = getInt(
-							name1 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing Or Enter 7 to place snake guard",
-							0, 7);
+					val = getInt(name1 + ": Enter 0 to throw dice. Enter 1 - 6 for Testing", 0, 7);
 					if (val == 0)
 						val = dice.roll();
 					else
@@ -250,13 +253,13 @@ public class SLGame {
 					// p1Location = bd.pieces.get(0).getPos();
 					plainMessage(name1 + ": moving to " + p1Location);
 					bd.setPiece(1, p1Location);
-					if (bd.getLadderStart(p1Location) && p1Location < 100) {
+					if (bd.getLadderStart(p1Location) && p1Location < max) {
 						p1Location = bd.getLadderEnd(p1Location); // going up the first ladder
 						plainMessage(name1 + ": going up a ladder to " + p1Location);
 						bd.setPiece(1, p1Location);
 						bd.pieces.get(0).decrementLadderCount();
 					}
-					if (bd.getSnakeHead(p1Location) && p1Location < 100) {
+					if (bd.getSnakeHead(p1Location) && p1Location < max) {
 						p1Location = bd.getSnakeTail(p1Location); // going down the snake
 						plainMessage(name1 + ": going down to " + p1Location);
 						bd.setPiece(1, p1Location);
@@ -265,12 +268,17 @@ public class SLGame {
 
 					else
 
-					if (val == 6 && p1Location < 100) {
+					if (val == 6 && p1Location < max) {
 						continue;
-					} else
+					} else {
+//						val = getInt(name1 + ": Enter 1 to place snake guard and 0 to skip", 0, 1);
+//						if (val == 1) {
+//							bd.pieces.get(0).setSnakeGaurdPosition();
+//						}
 						break;
+					}
 				}
-				if (p1Location >= 100) {
+				if (p1Location >= max) {
 					if (bd.pieces.get(0).getLadderCount() > 0) {
 						p1Location = 1;
 						bd.setPiece(1, p1Location);
@@ -280,7 +288,7 @@ public class SLGame {
 			} else
 				break;
 			// here we are allowing use to set the dice value for testing purposes
-			if (p2Location < 100 && p1Location < 100 && p2Count < 50) {
+			if (p2Location < max && p1Location < max && p2Count < maxMoves) {
 				while (true) {
 					if (bd.pieces.get(1).getParalyzedState() > 0) {
 						bd.pieces.get(1).decrementParalyzedState();
@@ -296,29 +304,29 @@ public class SLGame {
 					p2Count++;
 					plainMessage(name2 + ": moving to " + p2Location);
 					bd.setPiece(2, p2Location);
-					if (bd.getLadderStart(p2Location) && p2Location < 100) {
+					if (bd.getLadderStart(p2Location) && p2Location < max) {
 						p2Location = bd.getLadderEnd(p2Location); // going up the first ladder
 						plainMessage(name2 + ": going up a ladder to " + p2Location);
 						bd.setPiece(2, p2Location);
 						bd.pieces.get(1).decrementLadderCount();
 					}
-					if (bd.getSnakeHead(p2Location) && p2Location < 100) {
+					if (bd.getSnakeHead(p2Location) && p2Location < max) {
 						p2Location = bd.getSnakeTail(p2Location); // going up the first ladder
 						plainMessage(name2 + ": going down to " + p2Location);
 						bd.setPiece(2, p2Location);
 						bd.pieces.get(1).setParalyzedState(3);
 					}
-					if (val == 6 && p2Location < 100) {
+					if (val == 6 && p2Location < max) {
 						continue;
 					} else {
 						// code to place snake guard
-						val = getInt(name2 + ": Enter 0 to place snake guard", 0, 0);
-
+//						val = getInt(name2 + ": Enter 0 to place snake guard", 0, 0);
+//
 						break;
 					}
 
 				}
-				if (p2Location >= 100) {
+				if (p2Location >= max) {
 					if (bd.pieces.get(1).getLadderCount() > 0) {
 						p2Location = 1;
 						bd.setPiece(2, p2Location);
@@ -329,7 +337,7 @@ public class SLGame {
 			else
 				break;
 			if (numPlayers > 2) {
-				if (p3Location < 100 && p2Location < 100 && p1Location < 100 && p3Count < 50) {
+				if (p3Location < max && p2Location < max && p1Location < max && p3Count < maxMoves) {
 					while (true) {
 						if (bd.pieces.get(2).getParalyzedState() > 0) {
 							bd.pieces.get(2).decrementParalyzedState();
@@ -346,24 +354,24 @@ public class SLGame {
 						plainMessage(name3 + ": moving to " + p3Location);
 						bd.setPiece(3, p3Location);
 
-						if (bd.getLadderStart(p3Location) && p3Location < 100) {
+						if (bd.getLadderStart(p3Location) && p3Location < max) {
 							p3Location = bd.getLadderEnd(p3Location); // going up the first ladder
 							plainMessage(name3 + ": going up a ladder to " + p3Location);
 							bd.setPiece(3, p3Location);
 							bd.pieces.get(2).decrementLadderCount();
 						}
-						if (bd.getSnakeHead(p3Location) && p3Location < 100) {
+						if (bd.getSnakeHead(p3Location) && p3Location < max) {
 							p3Location = bd.getSnakeTail(p3Location); // going up the first ladder
 							plainMessage(name3 + ": going down to " + p3Location);
 							bd.setPiece(3, p3Location);
 							bd.pieces.get(2).setParalyzedState(3);
 						}
-						if (val == 6 && p3Location < 100) {
+						if (val == 6 && p3Location < max) {
 							continue;
 						} else
 							break;
 					}
-					if (p3Location >= 100) {
+					if (p3Location >= max) {
 						if (bd.pieces.get(2).getLadderCount() > 0) {
 							p3Location = 1;
 							bd.setPiece(3, p3Location);
@@ -375,7 +383,8 @@ public class SLGame {
 					break;
 			}
 			if (numPlayers == 4) {
-				if (p4Location < 100 && p3Location < 100 && p2Location < 100 && p1Location < 100 && p4Count < 50) {
+				if (p4Location < max && p3Location < max && p2Location < max && p1Location < max
+						&& p4Count < maxMoves) {
 					while (true) {
 						if (bd.pieces.get(3).getParalyzedState() > 0) {
 							bd.pieces.get(3).decrementParalyzedState();
@@ -391,25 +400,25 @@ public class SLGame {
 						p4Count++;
 						plainMessage(name4 + ": moving to " + p4Location);
 						bd.setPiece(4, p4Location);
-						if (bd.getLadderStart(p4Location) && p4Location < 100) {
+						if (bd.getLadderStart(p4Location) && p4Location < max) {
 							p4Location = bd.getLadderEnd(p4Location); // going up the first ladder
 							plainMessage(name4 + ": going up a ladder to " + p4Location);
 							bd.setPiece(4, p4Location);
 							bd.pieces.get(3).decrementLadderCount();
 						}
-						if (bd.getSnakeHead(p4Location) && p4Location < 100) {
+						if (bd.getSnakeHead(p4Location) && p4Location < max) {
 							p4Location = bd.getSnakeTail(p4Location); // going up the first ladder
 							plainMessage(name4 + ": going down to " + p4Location);
 							bd.setPiece(4, p4Location);
 							bd.pieces.get(3).setParalyzedState(3);
 						}
 
-						if (val == 6 && p4Location < 100) {
+						if (val == 6 && p4Location < max) {
 							continue;
 						} else
 							break;
 					}
-					if (p4Location >= 100) {
+					if (p4Location >= max) {
 						if (bd.pieces.get(3).getLadderCount() > 0) {
 							p4Location = 1;
 							bd.setPiece(4, p4Location);
@@ -448,6 +457,9 @@ public class SLGame {
 					if ((s.getTail() < 10) && d.equalsIgnoreCase("DOWN")) {
 						continue;
 					}
+					if ((s.getTail() < 30) && d.equalsIgnoreCase("DOWN")) {
+						continue;
+					}
 					sc.moveSnake(bd, d, s);
 					break;
 				} catch (Exception e) {
@@ -482,15 +494,122 @@ public class SLGame {
 			// moving up the ladder, going down the snake or being trapped (lose 3 moves)
 
 //			bd.addMessage("Continue until");
-//			bd.addMessage("a player gets to 100");
+//			bd.addMessage("a player gets to max");
 //			bd.addMessage("Remember to have fun!");
 //			bd.addMessage("Danger: Traps,Snakes");
 //			bd.addMessage("Trap: lose 3 moves");
 		}
+		for (int i = 0; i < bd.pieces.size(); i++) {
+			if (bd.pieces.get(i).getPos() >= 100) {
+				winner = bd.pieces.get(i);
+				bd.setPiece(i + 1, max);
+			}
+		}
+		stage3();
 	}
 
 	// The very first method to be called
 	// This method constructs a SLGame object and calls its control method
+
+	public void stage3() {
+		int count = 0;
+		while (count < stage3Moves) {
+
+			for (int i = 0; i < bd.pieces.size(); i++) {
+				if (bd.pieces.get(i) == winner) {
+					continue;
+				} else {
+					moveDiagonal(bd.pieces.get(i));
+					bd.setPiece(i + 1, bd.pieces.get(i).getPos());
+					if (i == 0)
+						p1Location = bd.pieces.get(i).getPos();
+					if (i == 1)
+						p2Location = bd.pieces.get(i).getPos();
+					if (i == 2)
+						p3Location = bd.pieces.get(i).getPos();
+					if (i == 3)
+						p4Location = bd.pieces.get(i).getPos();
+
+					for (int j = 0; j < snakes.size(); j++) {
+						if (snakes.get(j).getTail() == bd.pieces.get(i).getPos()) {
+							snakes.remove(j);
+						}
+
+					}
+				}
+			}
+
+			Random rand = new Random();
+			while (true) {
+				try {
+					Snake1 s = snakes.get(rand.nextInt(snakes.size()));
+					String d = directions.get(rand.nextInt(directions.size()));
+
+					if ((s.getHead() % 10 == 0) && d.equalsIgnoreCase("RIGHT")) {
+						continue;
+					}
+					if ((s.getHead() % 10 == 0) && d.equalsIgnoreCase("LEFT")) {
+						continue;
+					}
+					if ((s.getHead() % 10 == 1) && d.equalsIgnoreCase("RIGHT")) {
+						continue;
+					}
+					if ((s.getHead() % 10 == 1) && d.equalsIgnoreCase("LEFT")) {
+						continue;
+					}
+					if ((s.getTail() == 1) && d.equalsIgnoreCase("LEFT")) {
+						continue;
+					}
+					if ((s.getTail() == 1) && d.equalsIgnoreCase("RIGHT")) {
+						continue;
+					}
+					if ((s.getTail() < 10) && d.equalsIgnoreCase("DOWN")) {
+						continue;
+					}
+					if ((s.getTail() < 30) && d.equalsIgnoreCase("DOWN")) {
+						continue;
+					}
+					sc.moveSnake(bd, d, s);
+					break;
+				} catch (Exception e) {
+					continue;
+				}
+			}
+			if (bd.getSnakeHead(p1Location) && p1Location < max) {
+				break;
+			}
+			if (bd.getSnakeHead(p2Location) && p2Location < max) {
+				break;
+			}
+			if (bd.getSnakeHead(p3Location) && p3Location < max) {
+				break;
+			}
+			if (bd.getSnakeHead(p4Location) && p4Location < max) {
+				break;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println(bd.pieces.get(1).getPos());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			count++;
+		}
+	}
+
+	private void moveDiagonal(Pieces pieces) {
+		Random rand = new Random();
+		String d = directions.get(rand.nextInt(2));
+		if (pieces.getPos() > 90)
+			d = "DOWN";
+		if (pieces.getPos() < 11)
+			d = "UP";
+		System.out.println(d);
+		pieces.movePieceDiagonal(bd, d);
+
+	}
+
 	public static void main(String args[]) throws Exception {
 		SLGame slg = new SLGame();
 
