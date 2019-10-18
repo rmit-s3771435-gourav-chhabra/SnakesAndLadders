@@ -1,5 +1,8 @@
 package MainModules;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Pieces {
 
 	public int position;
@@ -54,21 +57,63 @@ public class Pieces {
 	public int getLadderCount() {
 		return this.ladderCount;
 	}
-	
-	public void decrementSnakeGuard() {
+
+	public void decrementSnakeGuardCount() {
 		this.snakeGuardCount--;
 	}
-	
+
 	public void setSnakeGaurdPosition() {
 		this.snakeGuardPosition = this.position;
 	}
-	
+
 	public int getSnakeGaurdPosition() {
 		return this.snakeGuardPosition;
 	}
-	
+
 	public void decrementNumberOfMoves() {
 		this.numberOfMoves--;
+	}
+
+	public void movePieceDiagonal(graphics.Board b, String move) {
+		ArrayList<Integer> lr = new ArrayList<Integer>();
+		lr.add(1);
+		lr.add(-1);
+		Random rand = new Random();
+		int lrDirection = lr.get(rand.nextInt(lr.size()));
+		int oldPos = this.position;
+
+		int row = (oldPos / 10) + 1;
+		if (oldPos % 10 == 0) {
+			row -= 1;
+		}
+
+		if (move.equalsIgnoreCase("UP")) {
+			this.position = (row * 10) + (row * 10 - this.position) + 1 + lrDirection;
+			if (this.position == oldPos && oldPos % 10 == 0) {
+				this.position += 2;
+			}
+			if ((this.position - oldPos == 20) && oldPos % 10 == 1) {
+				this.position -= 2;
+			}
+			if (this.position > 100) {
+				this.position -= 2;
+			}
+
+		}
+		if (move.equalsIgnoreCase("DOWN")) {
+			this.position = ((row - 1) * 10) - (this.position - ((row - 1) * 10)) + 1 + lrDirection;
+			if (this.position == oldPos && oldPos % 10 == 1) {
+				this.position -= 2;
+			}
+			if ((this.position - oldPos == 20) && oldPos % 10 == 0) {
+				this.position += 2;
+			}
+			if (this.position < 1) {
+				this.position += 2;
+			}
+		}
+
+		System.out.println(lrDirection);
 	}
 
 }

@@ -12,17 +12,33 @@ public class SnakeController {
 		rowNum = b.snakes[snake.getHead()].getRow();
 		b.snakes[snake.getHead()] = null;
 		int length = snake.getLength();
+		boolean snakeGuardFlag = false;
 		if (move.equalsIgnoreCase("UP")) {
 			if (b.snakes[snake.getHead() + (2 * (10 - (snake.getHead() % 10)) + 1)] == null) {
-				snake.setHead(snake.getHead() + (2 * (10 - (snake.getHead() % 10)) + 1));
-				snake.setTail(snake.getHead() - length);
+				int newPos = snake.getHead() + (2 * (10 - (snake.getHead() % 10)) + 1);
+				for(Pieces p:b.pieces) {
+					if(p.getSnakeGaurdPosition() == newPos)
+						snakeGuardFlag = true;
+				}
+				if(!snakeGuardFlag) {
+					snake.setHead(snake.getHead() + (2 * (10 - (snake.getHead() % 10)) + 1));
+					snake.setTail(snake.getHead() - length);
+				}
 			} else
 				throw new Exception("Snake already exist at same position");
 		}
 		if (move.equalsIgnoreCase("DOWN")) {
 			if (b.snakes[snake.getHead() - (2 * (snake.getHead() % 10)) + 1] == null) {
-				snake.setHead(snake.getHead() - (2 * (snake.getHead() % 10)) + 1);
-				snake.setTail(snake.getHead() - length);
+				int newPos = snake.getHead() - (2 * (snake.getHead() % 10)) + 1;
+				for(Pieces p:b.pieces) {
+					if(p.getSnakeGaurdPosition() == newPos)
+						snakeGuardFlag = true;
+				}
+				if(!snakeGuardFlag) {
+					snake.setHead(snake.getHead() - (2 * (snake.getHead() % 10)) + 1);
+					snake.setTail(snake.getHead() - length);
+				}
+				
 			} else
 				throw new Exception("Snake already exist at same position");
 		}
@@ -63,5 +79,5 @@ public class SnakeController {
 		}
 		b.snakes[snake.getHead()] = snake;
 	}
-
+	
 }
